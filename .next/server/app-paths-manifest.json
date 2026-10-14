@@ -1,0 +1,23 @@
+{
+  "/(admin)/clients/[id]/page": "app/(admin)/clients/[id]/page.js",
+  "/(admin)/clients/page": "app/(admin)/clients/page.js",
+  "/(admin)/dashboard/page": "app/(admin)/dashboard/page.js",
+  "/(admin)/domains/extensions/page": "app/(admin)/domains/extensions/page.js",
+  "/(admin)/domains/page": "app/(admin)/domains/page.js",
+  "/(admin)/products/groups/page": "app/(admin)/products/groups/page.js",
+  "/(admin)/products/page": "app/(admin)/products/page.js",
+  "/(admin)/roles/page": "app/(admin)/roles/page.js",
+  "/(admin)/staff/page": "app/(admin)/staff/page.js",
+  "/(admin)/tickets/[id]/page": "app/(admin)/tickets/[id]/page.js",
+  "/(admin)/tickets/departments/page": "app/(admin)/tickets/departments/page.js",
+  "/(admin)/tickets/page": "app/(admin)/tickets/page.js",
+  "/(admin)/tickets/replies/page": "app/(admin)/tickets/replies/page.js",
+  "/(auth)/forgot-password/page": "app/(auth)/forgot-password/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/reset-password/page": "app/(auth)/reset-password/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/ui-preview/page": "app/ui-preview/page.js"
+}

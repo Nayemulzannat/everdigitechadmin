@@ -1,0 +1,44 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/products/layout,_N_T_/(admin)/products/groups/layout,_N_T_/(admin)/products/groups/page,_N_T_/products/groups"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/products/groups/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 160,
+                    "slots": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/c7fc237c8d48b5f425d7a578d13a84ffd5c282b232b5e2f4280835fd35c1a126/$/products/groups",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/(admin)/products/groups/page"
+    },
+    "isFallback": false
+  }
+}

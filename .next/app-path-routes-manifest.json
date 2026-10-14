@@ -1,0 +1,23 @@
+{
+  "/(admin)/clients/[id]/page": "/clients/[id]",
+  "/(admin)/clients/page": "/clients",
+  "/(admin)/dashboard/page": "/dashboard",
+  "/(admin)/domains/extensions/page": "/domains/extensions",
+  "/(admin)/domains/page": "/domains",
+  "/(admin)/products/groups/page": "/products/groups",
+  "/(admin)/products/page": "/products",
+  "/(admin)/roles/page": "/roles",
+  "/(admin)/staff/page": "/staff",
+  "/(admin)/tickets/[id]/page": "/tickets/[id]",
+  "/(admin)/tickets/departments/page": "/tickets/departments",
+  "/(admin)/tickets/page": "/tickets",
+  "/(admin)/tickets/replies/page": "/tickets/replies",
+  "/(auth)/forgot-password/page": "/forgot-password",
+  "/(auth)/login/page": "/login",
+  "/(auth)/reset-password/page": "/reset-password",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/ui-preview/page": "/ui-preview"
+}

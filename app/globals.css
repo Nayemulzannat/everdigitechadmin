@@ -1,26 +1,263 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * EverDigitech admin design tokens.
+ * The default Tailwind palette is cleared so only these colors exist:
+ * components must use token classes (bg-primary, text-text-muted, ...) and never raw hex values.
+ */
+@theme {
+  --color-*: initial;
+
+  /* Brand */
+  --color-primary: #0b44f5;
+  --color-primary-hover: #0836c4;
+  --color-primary-soft: #eef3ff;
+  --color-primary-hover-soft: #f5f8ff;
+  --color-brand-dark: #0a2a9e;
+  --color-brand-teal: #13b497;
+  --color-brand-teal-light: #5eead4;
+
+  /* Surfaces */
+  --color-page: #f4f7fe;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f9fafb;
+
+  /* Lines */
+  --color-border: #e4e7ec;
+  --color-divider: #f2f4f7;
+  --color-input-border: #d0d5dd;
+  --color-chart-light: #c7d7fd;
+  --color-chart-grid: #eef1f5;
+  --color-user-card-border: #e4e9f5;
+
+  /* Text */
+  --color-text: #0f172a;
+  --color-text-secondary: #344054;
+  --color-text-muted: #475467;
+  --color-text-subtle: #64748b;
+
+  /* Status */
+  --color-success: #067647;
+  --color-success-soft: #ecfdf3;
+  --color-warning: #b54708;
+  --color-warning-soft: #fffaeb;
+  --color-warning-border: #fedf89;
+  --color-warning-text: #7a2e0e;
+  --color-danger: #b42318;
+  --color-danger-soft: #fef3f2;
+  --color-neutral: #344054;
+  --color-neutral-soft: #f2f4f7;
+  --color-neutral-dot: #667085;
+  --color-info: #1e3a8a;
+  --color-info-soft: #eef4ff;
+  --color-danger-border: #fda29b;
+  --color-alert-dot: #d92d20;
+
+  /* Content on brand surfaces, segmented track on the page background, modal overlay */
+  --color-on-primary: #ffffff;
+  --color-on-primary-muted: #e3eaff;
+  --color-on-primary-subtle: #dce5ff;
+  --color-segment-track: #e6ecfa;
+  --color-overlay: rgb(15 23 42 / 0.45);
+
+  /* Radii: rounded-card, rounded-control, rounded-nav, rounded-pill */
+  --radius-card: 16px;
+  --radius-control: 12px;
+  --radius-nav: 10px;
+  --radius-pill: 999px;
+
+  /* Selected segment in segmented controls / tabs */
+  --shadow-segment: 0 1px 2px rgb(16 24 40 / 0.08);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-page font-sans text-text antialiased;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-hover;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Phones: 16px inputs so iOS Safari does not zoom on focus (docs/RESPONSIVE.md). */
+  @media (max-width: 639px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/*
+ * Drawer (left side sheet) and Sheet (bottom or top sheet), built on a modal <dialog>.
+ * Enter/exit animate with @starting-style; motion only runs when the user allows it.
+ */
+@layer components {
+  .ui-modal {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    max-width: none;
+    max-height: none;
+    overflow: hidden;
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .ui-modal::backdrop {
+    background: var(--color-overlay);
+    opacity: 0;
+  }
+
+  .ui-modal[open]::backdrop {
+    opacity: 1;
+  }
+
+  .ui-modal[data-side="left"] {
+    inset: 0 auto 0 0;
+    width: min(85vw, 300px);
+    height: 100dvh;
+    border-radius: 0 var(--radius-card) var(--radius-card) 0;
+    translate: -100% 0;
+  }
+
+  .ui-modal[data-side="bottom"] {
+    inset: auto 0 0 0;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 560px;
+    max-height: 88dvh;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    translate: 0 100%;
+  }
+
+  .ui-modal[data-side="top"] {
+    inset: 0 0 auto 0;
+    width: 100%;
+    max-height: 88dvh;
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    translate: 0 -100%;
+  }
+
+  /* Dialog: a bottom sheet on phones, a centred dialog from md. */
+  .ui-modal[data-side="dialog"] {
+    inset: auto 0 0 0;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 560px;
+    max-height: 88dvh;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+    translate: 0 100%;
+  }
+
+  .ui-modal[open] {
+    translate: 0 0;
+  }
+
+  @media (min-width: 768px) {
+    .ui-modal[data-side="dialog"] {
+      inset: 0;
+      margin: auto;
+      width: min(480px, calc(100vw - 3rem));
+      height: fit-content;
+      max-height: calc(100dvh - 3rem);
+      border-radius: var(--radius-card);
+      translate: 0 0;
+      opacity: 0;
+      scale: 0.96;
+    }
+
+    .ui-modal[data-side="dialog"][data-size="lg"] {
+      width: min(680px, calc(100vw - 3rem));
+    }
+
+    .ui-modal[data-side="dialog"][data-size="xl"] {
+      width: min(880px, calc(100vw - 3rem));
+    }
+
+    .ui-modal[data-side="dialog"][open] {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @starting-style {
+    .ui-modal[open][data-side="left"] {
+      translate: -100% 0;
+    }
+
+    .ui-modal[open][data-side="bottom"] {
+      translate: 0 100%;
+    }
+
+    .ui-modal[open][data-side="top"] {
+      translate: 0 -100%;
+    }
+
+    .ui-modal[open][data-side="dialog"] {
+      translate: 0 100%;
+    }
+
+    @media (min-width: 768px) {
+      .ui-modal[open][data-side="dialog"] {
+        translate: 0 0;
+        opacity: 0;
+        scale: 0.96;
+      }
+    }
+
+    .ui-modal[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ui-modal {
+      transition:
+        translate 280ms cubic-bezier(0.32, 0.72, 0, 1),
+        opacity 200ms ease,
+        scale 200ms ease,
+        display 280ms allow-discrete,
+        overlay 280ms allow-discrete;
+    }
+
+    .ui-modal::backdrop {
+      transition:
+        opacity 280ms ease,
+        display 280ms allow-discrete,
+        overlay 280ms allow-discrete;
+    }
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+/* Respect reduced-motion for drawers, accordions and any other transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

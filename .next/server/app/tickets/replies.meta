@@ -1,0 +1,44 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/tickets/layout,_N_T_/(admin)/tickets/replies/layout,_N_T_/(admin)/tickets/replies/page,_N_T_/tickets/replies"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/tickets/replies/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 160,
+                    "slots": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/00c625b3e30e70813ac3c7d92287edec4cc0fae64adf24ce58f7a9fdc2cc165b/$/tickets/replies",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/(admin)/tickets/replies/page"
+    },
+    "isFallback": false
+  }
+}

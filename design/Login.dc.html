@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin Sign In</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B44F5}a:hover{color:#0836C4}
+button,input{font-family:inherit}
+@media (max-width: 960px){.brandside{display:none !important}}
+</style>
+</helmet>
+<div style="display: flex; min-height: 100vh; font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; color: #0F172A; background: #FFFFFF">
+<div class="brandside" style="width: 44%; max-width: 620px; flex-shrink: 0; background: #0B44F5; color: #FFFFFF; box-sizing: border-box; padding: 48px; display: flex; flex-direction: column; justify-content: space-between">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="20" r="9" fill="none" stroke="#FFFFFF" stroke-width="5"></circle><circle cx="25" cy="20" r="9" fill="none" stroke="#5EEAD4" stroke-width="5"></circle></svg>
+<span style="font-size: 22px; letter-spacing: -0.01em; font-weight: 500; color: #FFFFFF">Ever<span style="font-weight: 800">Digitech</span></span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 20px; max-width: 440px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #DCE5FF">Admin console</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">Clients, billing and servers in one place.</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #E3EAFF">This area is for EverDigitech staff only. Every sign-in is recorded with its IP address and device.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: #E3EAFF">
+<div style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>Two-factor authentication for every staff account</div>
+<div style="display: flex; align-items: center; gap: 10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"></path></svg>Locked for 15 minutes after 5 failed attempts</div>
+</div>
+</div>
+
+<div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px; box-sizing: border-box">
+<div style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em">Sign in</h2>
+<p style="margin: 0; font-size: 15px; color: #475467">Use your staff email and password.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="email" style="font-size: 13px; font-weight: 700; color: #344054">Email address</label>
+<input id="email" type="email" autocomplete="username" placeholder="you@everdigitech.com" style="height: 48px; padding: 0 14px; border: 1px solid #D0D5DD; border-radius: 12px; font-size: 15px; box-sizing: border-box">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<label for="password" style="font-size: 13px; font-weight: 700; color: #344054">Password</label>
+<a href="#" style="font-size: 13px; font-weight: 700; text-decoration: none">Forgot password?</a>
+</div>
+<input id="password" type="password" autocomplete="current-password" placeholder="Your password" style="height: 48px; padding: 0 14px; border: 1px solid #D0D5DD; border-radius: 12px; font-size: 15px; box-sizing: border-box">
+</div>
+<label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 14px; color: #344054; cursor: pointer">
+<input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: #0B44F5">
+Keep me signed in on this device
+</label>
+<a href="Main.dc.html" style="height: 48px; border-radius: 12px; background: #0B44F5; color: #FFFFFF; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none">Sign in</a>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.6; color: #475467">Looking for your hosting account? <a href="#" style="font-weight: 700; text-decoration: none">Go to the client area</a></p>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

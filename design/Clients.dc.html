@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clients</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F7FE}
+a{color:#0B44F5}a:hover{color:#0836C4}
+button,input,select{font-family:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.navlink:hover{background:#F5F8FF !important;color:#0B44F5 !important}
+.trow:hover{background:#F9FAFB}
+@media (max-width: 960px){.side{display:none !important}.grid4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.split{grid-template-columns:minmax(0,1fr) !important}.pad{padding:20px !important}.searchbox{display:none !important}}
+@media (max-width: 560px){.grid4{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div style="display: flex; min-height: 100vh; font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; color: #0F172A; background: #F4F7FE">
+
+<aside class="side" style="width: 256px; flex-shrink: 0; background: #FFFFFF; border-right: 1px solid #E4E7EC; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box; padding: 20px 14px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 4px 8px 12px; border-bottom: 1px solid #EEF1F6">
+<div style="display: flex; align-items: center; gap: 8px">
+<svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="20" r="9" fill="none" stroke="#0B44F5" stroke-width="5"></circle><circle cx="25" cy="20" r="9" fill="none" stroke="#13B497" stroke-width="5"></circle></svg>
+<span style="font-size: 20px; letter-spacing: -0.01em; font-weight: 500; color: #0B44F5">Ever<span style="font-weight: 800; color: #0A2A9E">Digitech</span></span>
+</div>
+<span style="align-self: flex-start; font-size: 11px; font-weight: 700; color: #0B44F5; background: #EEF3FF; border-radius: 999px; padding: 4px 10px; letter-spacing: 0.12em; text-transform: uppercase">Admin console</span>
+</div>
+<nav aria-label="Admin" style="display: flex; flex-direction: column; gap: 18px; flex-grow: 1">
+<sc-for list="{{nav}}" as="group" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 11px; font-weight: 700; color: #64748B; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 12px 6px">{{group.label}}</div>
+<sc-for list="{{group.items}}" as="item" hint-placeholder-count="3">
+<a class="navlink" href="{{item.href}}" aria-current="{{item.current}}" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600; box-sizing: border-box; color: {{item.color}}; background: {{item.bg}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{item.icon}}"></path></svg>
+<span>{{item.label}}</span>
+<sc-if value="{{item.hasBadge}}" hint-placeholder-val="{{false}}">
+<span style="margin-left: auto; font-size: 12px; font-weight: 700; background: #0B44F5; color: #FFFFFF; border-radius: 999px; padding: 2px 8px">{{item.badge}}</span>
+</sc-if>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: #F5F8FF; border: 1px solid #E4E9F5">
+<div style="width: 36px; height: 36px; border-radius: 999px; background: #0B44F5; color: #FFFFFF; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">NZ</div>
+<div style="display: flex; flex-direction: column; min-width: 0">
+<span style="font-size: 13px; font-weight: 700; color: #0F172A">Nayemul Zannat</span>
+<span style="font-size: 12px; color: #64748B">Super Admin</span>
+</div>
+</div>
+</aside>
+
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+<header style="height: 72px; display: flex; align-items: center; gap: 16px; padding: 0 32px; background: #FFFFFF; border-bottom: 1px solid #E4E7EC; position: sticky; top: 0; z-index: 5; box-sizing: border-box">
+<div class="searchbox" style="display: flex; align-items: center; gap: 10px; height: 44px; width: 100%; max-width: 440px; padding: 0 14px; border: 1px solid #E4E7EC; border-radius: 12px; background: #F9FAFB; box-sizing: border-box">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#475467" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35"></path></svg>
+<label for="admin-search" class="sr-only">Search</label>
+<input id="admin-search" type="search" placeholder="Search clients, domains, invoices…" style="flex-grow: 1; border: 0; background: transparent; font-size: 14px; color: #0F172A; outline: none; min-width: 0">
+<span style="font-size: 12px; font-weight: 700; color: #475467; border: 1px solid #E4E7EC; border-radius: 6px; padding: 2px 6px; background: #FFFFFF">Ctrl K</span>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #0B44F5; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Quick create
+</button>
+<button type="button" aria-label="Notifications" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid #E4E7EC; background: #FFFFFF; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#344054" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+<span style="position: absolute; top: 10px; right: 11px; width: 8px; height: 8px; border-radius: 999px; background: #D92D20; border: 2px solid #FFFFFF"></span>
+</button>
+</header>
+
+<main class="pad" style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1360px; width: 100%; box-sizing: border-box">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #475467">Business</span>
+<h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em">Clients</h1>
+<p style="margin: 0; font-size: 15px; color: #475467">Everyone who has an account with EverDigitech, with their services, balance and status.</p>
+</div>
+<div style="display: flex; gap: 10px">
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #D0D5DD; background: #FFFFFF; color: #344054; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+Export
+</button>
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #0B44F5; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Add client
+</button>
+</div>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid #E4E7EC; flex-wrap: wrap">
+<div role="tablist" aria-label="Client status" style="display: flex; gap: 4px; padding: 4px; background: #F2F4F7; border-radius: 12px; flex-wrap: wrap">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+<button type="button" role="tab" aria-selected="{{t.selected}}" onClick="{{t.pick}}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; background: {{t.bg}}; color: {{t.color}}; box-shadow: {{t.shadow}}">{{t.label}}<span style="font-size: 12px; font-weight: 700; color: #475467; font-variant-numeric: tabular-nums">{{t.count}}</span></button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+<label for="group-filter" class="sr-only">Client group</label>
+<select id="group-filter" style="height: 44px; padding: 0 12px; border: 1px solid #D0D5DD; border-radius: 12px; background: #FFFFFF; font-size: 14px; color: #344054">
+<option>All groups</option>
+<option>Regular</option>
+<option>Reseller</option>
+<option>VIP</option>
+</select>
+<div style="display: flex; align-items: center; gap: 8px; height: 44px; width: 300px; max-width: 100%; padding: 0 12px; border: 1px solid #D0D5DD; border-radius: 12px; box-sizing: border-box">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475467" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35"></path></svg>
+<label for="client-search" class="sr-only">Search clients</label>
+<input id="client-search" type="search" value="{{q}}" onChange="{{onSearch}}" placeholder="Name, email or company" style="flex-grow: 1; border: 0; outline: none; font-size: 14px; background: transparent; min-width: 0">
+</div>
+</div>
+</div>
+
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1000px">
+<thead>
+<tr style="background: #F9FAFB; text-align: left">
+<th style="padding: 12px 20px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Client</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Company</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em; text-align: right">Services</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em; text-align: right">Domains</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em; text-align: right">Balance due</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Group</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Status</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Joined</th>
+<th style="padding: 12px 20px"><span class="sr-only">Actions</span></th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+<tr class="trow" style="border-top: 1px solid #F2F4F7">
+<td style="padding: 14px 20px">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 999px; background: #0B44F5; color: #FFFFFF; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">{{r.initials}}</span>
+<span style="display: flex; flex-direction: column"><a href="#" style="font-weight: 700; color: #0F172A; text-decoration: none">{{r.name}}</a><span style="font-size: 12px; color: #475467">{{r.email}}</span></span>
+</div>
+</td>
+<td style="padding: 14px 16px; color: #344054">{{r.company}}</td>
+<td style="padding: 14px 16px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums">{{r.services}}</td>
+<td style="padding: 14px 16px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums">{{r.domains}}</td>
+<td style="padding: 14px 16px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; color: {{r.dueColor}}">{{r.due}}</td>
+<td style="padding: 14px 16px"><span style="font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: #F2F4F7; color: #344054">{{r.group}}</span></td>
+<td style="padding: 14px 16px; white-space: nowrap">
+<sc-if value="{{r.isActive}}" hint-placeholder-val="{{true}}"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: #067647; background: #ECFDF3"><span style="width: 6px; height: 6px; border-radius: 999px; background: #067647"></span>Active</span></sc-if>
+<sc-if value="{{r.isInactive}}" hint-placeholder-val="{{false}}"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: #B54708; background: #FFFAEB"><span style="width: 6px; height: 6px; border-radius: 999px; background: #B54708"></span>Inactive</span></sc-if>
+<sc-if value="{{r.isClosed}}" hint-placeholder-val="{{false}}"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: #344054; background: #F2F4F7"><span style="width: 6px; height: 6px; border-radius: 999px; background: #667085"></span>Closed</span></sc-if>
+</td>
+<td style="padding: 14px 16px; color: #475467; white-space: nowrap">{{r.joined}}</td>
+<td style="padding: 14px 20px">
+<div style="display: flex; gap: 6px; justify-content: flex-end">
+<a href="#" style="height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid #D0D5DD; display: flex; align-items: center; font-size: 13px; font-weight: 700; color: #344054; text-decoration: none; box-sizing: border-box">View</a>
+<button type="button" aria-label="Log in as {{r.name}}" title="Log in as client" style="width: 44px; height: 44px; border-radius: 10px; border: 1px solid #D0D5DD; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path></svg>
+</button>
+</div>
+</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 48px 20px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center">
+<span style="font-size: 15px; font-weight: 700">No clients match this filter</span>
+<span style="font-size: 13px; color: #475467">Try another status or clear the search.</span>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid #E4E7EC; flex-wrap: wrap">
+<span style="font-size: 13px; color: #475467">Showing {{shown}} of 1,248 clients</span>
+<nav aria-label="Pagination" style="display: flex; gap: 6px">
+<button type="button" style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #D0D5DD; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #344054; cursor: pointer">Previous</button>
+<button type="button" aria-current="page" style="width: 40px; height: 40px; border-radius: 10px; border: 0; background: #0B44F5; color: #FFFFFF; font-size: 13px; font-weight: 700">1</button>
+<button type="button" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid #D0D5DD; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #344054; cursor: pointer">2</button>
+<button type="button" style="width: 40px; height: 40px; border-radius: 10px; border: 1px solid #D0D5DD; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #344054; cursor: pointer">3</button>
+<button type="button" style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #D0D5DD; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #344054; cursor: pointer">Next</button>
+</nav>
+</div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'all', q: '' };
+  }
+  nav(active) {
+    const I = {
+      dashboard: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+      reports: 'M18 20V10M12 20V4M6 20v-6',
+      clients: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+      orders: 'M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0',
+      invoices: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8',
+      hosting: 'M2 4h20v6H2zM2 14h20v6H2zM6 7h.01M6 17h.01',
+      domains: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z',
+      products: 'M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01',
+      servers: 'M4 4h16v16H4zM9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3',
+      tickets: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+      activity: 'M22 12h-4l-3 9L9 3l-3 9H2',
+      staff: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+      roles: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      settings: 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'
+    };
+    const groups = [
+      { label: 'Overview', items: [['dashboard', 'Dashboard', 'Main.dc.html'], ['reports', 'Reports', '#']] },
+      { label: 'Business', items: [['clients', 'Clients', 'Clients.dc.html'], ['orders', 'Orders', '#', 6], ['invoices', 'Invoices', '#'], ['hosting', 'Hosting services', '#'], ['domains', 'Domains', '#'], ['products', 'Products & pricing', '#']] },
+      { label: 'Operations', items: [['servers', 'Servers', '#'], ['tickets', 'Support tickets', '#', 14], ['activity', 'Activity log', '#']] },
+      { label: 'Administration', items: [['staff', 'Staff', '#'], ['roles', 'Roles & permissions', 'Roles.dc.html'], ['settings', 'Settings', '#']] }
+    ];
+    return groups.map((g) => ({
+      label: g.label,
+      items: g.items.map(([k, l, h, b]) => ({
+        label: l, href: h, icon: I[k], badge: b ? String(b) : '', hasBadge: !!b,
+        current: k === active ? 'page' : 'false',
+        bg: k === active ? '#EEF3FF' : 'transparent',
+        color: k === active ? '#0B44F5' : '#344054'
+      }))
+    }));
+  }
+  renderVals() {
+    const data = [
+      ['Rahim Uddin', 'rahim@example.com', 'Uddin Traders', 3, 5, 0, false, 'Regular', 'active', '12 Jan 2024'],
+      ['Nusrat Jahan', 'nusrat@example.com', 'Nusrat Bakes', 1, 2, 1450, false, 'Regular', 'active', '03 Mar 2025'],
+      ['Arif Hasan', 'arif@technest.example', 'TechNest Ltd', 6, 14, 4200, false, 'Reseller', 'active', '18 Aug 2023'],
+      ['Sabbir Hossain', 'sabbir@example.com', '—', 1, 1, 0, false, 'Regular', 'active', '27 Sep 2026'],
+      ['Farhana Akter', 'farhana@example.com', 'Akter Fashion', 0, 1, 1800, true, 'Regular', 'inactive', '09 May 2025'],
+      ['Mahmudul Hasan', 'mahmud@digicraft.example', 'DigiCraft Agency', 9, 22, 0, false, 'VIP', 'active', '02 Feb 2022'],
+      ['Tanvir Ahmed', 'tanvir@example.com', '—', 0, 0, 0, false, 'Regular', 'closed', '14 Nov 2023'],
+      ['Sharmin Sultana', 'sharmin@sultanaedu.example', 'Sultana Edu', 2, 2, 2600, true, 'Regular', 'active', '21 Jul 2024']
+    ];
+    const fmt = (n) => '৳' + n.toLocaleString('en-IN');
+    const q = (this.state.q || '').toLowerCase();
+    const rows = data
+      .filter((d) => this.state.tab === 'all' || d[8] === this.state.tab)
+      .filter((d) => !q || (d[0] + ' ' + d[1] + ' ' + d[2]).toLowerCase().includes(q))
+      .map((d) => ({
+        name: d[0], email: d[1], company: d[2], services: d[3], domains: d[4],
+        due: d[5] ? fmt(d[5]) + (d[6] ? ' overdue' : '') : '—',
+        dueColor: d[6] ? '#B42318' : d[5] ? '#0F172A' : '#475467',
+        group: d[7], isActive: d[8] === 'active', isInactive: d[8] === 'inactive', isClosed: d[8] === 'closed',
+        joined: d[9], initials: d[0].split(' ').map((p) => p[0]).join('').slice(0, 2)
+      }));
+    const tabDefs = [['all', 'All', '1,248'], ['active', 'Active', '1,102'], ['inactive', 'Inactive', '96'], ['closed', 'Closed', '50']];
+    const tabs = tabDefs.map(([k, l, c]) => {
+      const on = this.state.tab === k;
+      return {
+        label: l, count: c, selected: on ? 'true' : 'false',
+        bg: on ? '#FFFFFF' : 'transparent', color: on ? '#0F172A' : '#475467',
+        shadow: on ? '0 1px 2px rgba(16,24,40,0.08)' : 'none',
+        pick: () => this.setState({ tab: k })
+      };
+    });
+    return {
+      nav: this.nav('clients'), rows, tabs, q: this.state.q,
+      onSearch: (e) => this.setState({ q: e.target.value }),
+      isEmpty: rows.length === 0,
+      shown: rows.length ? '1–' + rows.length : '0'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/domains/layout,_N_T_/(admin)/domains/extensions/layout,_N_T_/(admin)/domains/extensions/page,_N_T_/domains/extensions"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/domains/extensions/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 96,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 160,
+                    "slots": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/50c73dfecf517cf7c6b266e9be39df60f0c76456f43002628fca878399ee1cb2/$/domains/extensions",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/(admin)/domains/extensions/page"
+    },
+    "isFallback": false
+  }
+}

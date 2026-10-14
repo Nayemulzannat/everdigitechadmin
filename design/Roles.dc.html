@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Roles and Permissions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F7FE}
+a{color:#0B44F5}a:hover{color:#0836C4}
+button,input,select{font-family:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.navlink:hover{background:#F5F8FF !important;color:#0B44F5 !important}
+.trow:hover{background:#F9FAFB}
+@media (max-width: 960px){.side{display:none !important}.grid4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.split{grid-template-columns:minmax(0,1fr) !important}.pad{padding:20px !important}.searchbox{display:none !important}}
+@media (max-width: 560px){.grid4{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div style="display: flex; min-height: 100vh; font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; color: #0F172A; background: #F4F7FE">
+
+<aside class="side" style="width: 256px; flex-shrink: 0; background: #FFFFFF; border-right: 1px solid #E4E7EC; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box; padding: 20px 14px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 4px 8px 12px; border-bottom: 1px solid #EEF1F6">
+<div style="display: flex; align-items: center; gap: 8px">
+<svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="20" r="9" fill="none" stroke="#0B44F5" stroke-width="5"></circle><circle cx="25" cy="20" r="9" fill="none" stroke="#13B497" stroke-width="5"></circle></svg>
+<span style="font-size: 20px; letter-spacing: -0.01em; font-weight: 500; color: #0B44F5">Ever<span style="font-weight: 800; color: #0A2A9E">Digitech</span></span>
+</div>
+<span style="align-self: flex-start; font-size: 11px; font-weight: 700; color: #0B44F5; background: #EEF3FF; border-radius: 999px; padding: 4px 10px; letter-spacing: 0.12em; text-transform: uppercase">Admin console</span>
+</div>
+<nav aria-label="Admin" style="display: flex; flex-direction: column; gap: 18px; flex-grow: 1">
+<sc-for list="{{nav}}" as="group" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 11px; font-weight: 700; color: #64748B; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 12px 6px">{{group.label}}</div>
+<sc-for list="{{group.items}}" as="item" hint-placeholder-count="3">
+<a class="navlink" href="{{item.href}}" aria-current="{{item.current}}" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600; box-sizing: border-box; color: {{item.color}}; background: {{item.bg}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{item.icon}}"></path></svg>
+<span>{{item.label}}</span>
+<sc-if value="{{item.hasBadge}}" hint-placeholder-val="{{false}}">
+<span style="margin-left: auto; font-size: 12px; font-weight: 700; background: #0B44F5; color: #FFFFFF; border-radius: 999px; padding: 2px 8px">{{item.badge}}</span>
+</sc-if>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: #F5F8FF; border: 1px solid #E4E9F5">
+<div style="width: 36px; height: 36px; border-radius: 999px; background: #0B44F5; color: #FFFFFF; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">NZ</div>
+<div style="display: flex; flex-direction: column; min-width: 0">
+<span style="font-size: 13px; font-weight: 700; color: #0F172A">Nayemul Zannat</span>
+<span style="font-size: 12px; color: #64748B">Super Admin</span>
+</div>
+</div>
+</aside>
+
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+<header style="height: 72px; display: flex; align-items: center; gap: 16px; padding: 0 32px; background: #FFFFFF; border-bottom: 1px solid #E4E7EC; position: sticky; top: 0; z-index: 5; box-sizing: border-box">
+<div class="searchbox" style="display: flex; align-items: center; gap: 10px; height: 44px; width: 100%; max-width: 440px; padding: 0 14px; border: 1px solid #E4E7EC; border-radius: 12px; background: #F9FAFB; box-sizing: border-box">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#475467" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35"></path></svg>
+<label for="admin-search" class="sr-only">Search</label>
+<input id="admin-search" type="search" placeholder="Search clients, domains, invoices…" style="flex-grow: 1; border: 0; background: transparent; font-size: 14px; color: #0F172A; outline: none; min-width: 0">
+<span style="font-size: 12px; font-weight: 700; color: #475467; border: 1px solid #E4E7EC; border-radius: 6px; padding: 2px 6px; background: #FFFFFF">Ctrl K</span>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #0B44F5; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Quick create
+</button>
+<button type="button" aria-label="Notifications" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid #E4E7EC; background: #FFFFFF; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#344054" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+<span style="position: absolute; top: 10px; right: 11px; width: 8px; height: 8px; border-radius: 999px; background: #D92D20; border: 2px solid #FFFFFF"></span>
+</button>
+</header>
+
+<main class="pad" style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1360px; width: 100%; box-sizing: border-box">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #475467">Administration</span>
+<h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em">Roles &amp; permissions</h1>
+<p style="margin: 0; font-size: 15px; color: #475467">Decide what each staff role can see and change in the admin console.</p>
+</div>
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #D0D5DD; background: #FFFFFF; color: #344054; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+New role
+</button>
+</div>
+
+<div class="split" style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="5">
+<button type="button" onClick="{{r.pick}}" aria-pressed="{{r.selected}}" style="text-align: left; padding: 16px; border-radius: 14px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; border: 1px solid {{r.border}}; background: {{r.bg}}">
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%">
+<span style="font-size: 15px; font-weight: 800; color: #0F172A">{{r.name}}</span>
+<sc-if value="{{r.locked}}" hint-placeholder-val="{{false}}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475467" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Locked role"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+</sc-if>
+</span>
+<span style="font-size: 13px; color: #475467; line-height: 1.45">{{r.desc}}</span>
+<span style="font-size: 12px; font-weight: 700; color: #344054">{{r.staff}} · {{r.count}} permissions</span>
+</button>
+</sc-for>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden">
+<div style="padding: 24px; display: flex; flex-direction: column; gap: 18px; border-bottom: 1px solid #E4E7EC">
+<sc-if value="{{locked}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: #EEF4FF; color: #1E3A8A; font-size: 14px; line-height: 1.5">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+<span>Super Admin always has every permission. This role can't be edited or deleted, so there is always someone who can manage staff.</span>
+</div>
+</sc-if>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="role-name" style="font-size: 13px; font-weight: 700; color: #344054">Role name</label>
+<input id="role-name" type="text" value="{{roleName}}" readOnly="{{locked}}" style="height: 44px; padding: 0 12px; border: 1px solid #D0D5DD; border-radius: 12px; font-size: 14px; color: #0F172A; box-sizing: border-box">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="role-desc" style="font-size: 13px; font-weight: 700; color: #344054">Description</label>
+<input id="role-desc" type="text" value="{{roleDesc}}" readOnly="{{locked}}" style="height: 44px; padding: 0 12px; border: 1px solid #D0D5DD; border-radius: 12px; font-size: 14px; color: #0F172A; box-sizing: border-box">
+</div>
+</div>
+</div>
+
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 760px">
+<thead>
+<tr style="background: #F9FAFB">
+<th style="padding: 12px 24px; text-align: left; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Module</th>
+<th style="padding: 12px 8px; width: 80px; text-align: center; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">View</th>
+<th style="padding: 12px 8px; width: 80px; text-align: center; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Create</th>
+<th style="padding: 12px 8px; width: 80px; text-align: center; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Edit</th>
+<th style="padding: 12px 8px; width: 80px; text-align: center; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Delete</th>
+<th style="padding: 12px 24px; text-align: left; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Special</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{rows}}" as="m" hint-placeholder-count="13">
+<tr class="trow" style="border-top: 1px solid #F2F4F7">
+<td style="padding: 10px 24px">
+<div style="font-weight: 700">{{m.label}}</div>
+<div style="font-size: 12px; color: #475467">{{m.desc}}</div>
+</td>
+<sc-for list="{{m.cells}}" as="c" hint-placeholder-count="4">
+<td style="padding: 0; text-align: center">
+<sc-if value="{{c.has}}" hint-placeholder-val="{{true}}">
+<label style="display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; cursor: pointer">
+<input type="checkbox" checked="{{c.on}}" disabled="{{c.locked}}" onChange="{{c.toggle}}" style="width: 18px; height: 18px; margin: 0; accent-color: #0B44F5; cursor: pointer">
+<span class="sr-only">{{c.aria}}</span>
+</label>
+</sc-if>
+<sc-if value="{{c.none}}" hint-placeholder-val="{{false}}">
+<span aria-hidden="true" style="color: #98A2B3">—</span>
+</sc-if>
+</td>
+</sc-for>
+<td style="padding: 0 24px 0 16px">
+<sc-if value="{{m.special.has}}" hint-placeholder-val="{{true}}">
+<label style="display: inline-flex; min-height: 44px; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 600; color: #344054">
+<input type="checkbox" checked="{{m.special.on}}" disabled="{{m.special.locked}}" onChange="{{m.special.toggle}}" style="width: 18px; height: 18px; margin: 0; accent-color: #0B44F5; cursor: pointer">
+{{m.special.label}}
+</label>
+</sc-if>
+</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 24px; border-top: 1px solid #E4E7EC; background: #F9FAFB; flex-wrap: wrap">
+<span style="font-size: 13px; color: #475467"><strong style="color: #0F172A">{{selectedCount}}</strong> of {{totalCount}} permissions selected · <span>{{staffLine}}</span></span>
+<div style="display: flex; gap: 10px">
+<sc-if value="{{canDelete}}" hint-placeholder-val="{{true}}">
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #FDA29B; background: #FFFFFF; color: #B42318; font-size: 14px; font-weight: 700; cursor: pointer">Delete role</button>
+</sc-if>
+<button type="button" disabled="{{locked}}" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: #0B44F5; color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer; opacity: {{saveOpacity}}">Save changes</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1320}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const all = [];
+    this.modules().forEach((m) => {
+      m.actions.forEach((a) => all.push(m.key + '.' + a));
+      if (m.special) all.push(m.key + '.' + m.special[0]);
+    });
+    const pick = (keys) => { const o = {}; keys.forEach((k) => { o[k] = true; }); return o; };
+    const adminKeys = all.filter((k) => !/^(staff|roles)\./.test(k) && k !== 'settings.edit');
+    this.state = {
+      role: 'support',
+      perms: {
+        super: pick(all),
+        admin: pick(adminKeys),
+        billing: pick(['clients.view', 'orders.view', 'orders.edit', 'orders.approve', 'invoices.view', 'invoices.create', 'invoices.edit', 'invoices.delete', 'invoices.refund', 'payments.view', 'payments.create', 'payments.edit', 'payments.approve', 'reports.view', 'reports.export']),
+        support: pick(['clients.view', 'services.view', 'services.server_login', 'domains.view', 'domains.dns', 'tickets.view', 'tickets.create', 'tickets.edit', 'tickets.assign']),
+        sales: pick(['clients.view', 'clients.create', 'clients.edit', 'orders.view', 'orders.create', 'products.view', 'tickets.view'])
+      }
+    };
+  }
+  modules() {
+    const crud = ['view', 'create', 'edit', 'delete'];
+    return [
+      { key: 'clients', label: 'Clients', desc: 'Profiles, contacts and notes', actions: crud, special: ['login_as', 'Log in as client'] },
+      { key: 'orders', label: 'Orders', desc: 'New orders and fraud checks', actions: crud, special: ['approve', 'Approve or cancel'] },
+      { key: 'invoices', label: 'Invoices', desc: 'Billing, credit notes, quotes', actions: crud, special: ['refund', 'Issue refunds'] },
+      { key: 'payments', label: 'Payments', desc: 'Transactions and gateways', actions: ['view', 'create', 'edit'], special: ['approve', 'Approve manual payments'] },
+      { key: 'services', label: 'Hosting services', desc: 'Accounts on cPanel and other panels', actions: crud, special: ['server_login', 'Server sign-in'] },
+      { key: 'domains', label: 'Domains', desc: 'Registrations, renewals, transfers', actions: crud, special: ['dns', 'DNS and EPP codes'] },
+      { key: 'servers', label: 'Servers', desc: 'Servers, groups and API keys', actions: crud, special: null },
+      { key: 'products', label: 'Products & pricing', desc: 'Packages, TLD prices, coupons', actions: crud, special: null },
+      { key: 'tickets', label: 'Support tickets', desc: 'Replies, departments, canned replies', actions: crud, special: ['assign', 'Assign to staff'] },
+      { key: 'reports', label: 'Reports', desc: 'Income, growth and staff reports', actions: ['view'], special: ['export', 'Export data'] },
+      { key: 'staff', label: 'Staff', desc: 'Staff accounts and sign-in history', actions: crud, special: null },
+      { key: 'roles', label: 'Roles & permissions', desc: 'This page', actions: crud, special: null },
+      { key: 'settings', label: 'Settings', desc: 'Company, email, automation', actions: ['view', 'edit'], special: null }
+    ];
+  }
+  toggle(key, mod, action) {
+    const role = this.state.role;
+    if (role === 'super') return;
+    const p = Object.assign({}, this.state.perms[role]);
+    const turningOn = !p[key];
+    if (turningOn) {
+      p[key] = true;
+      if (action !== 'view' && mod.actions.includes('view')) p[mod.key + '.view'] = true;
+    } else {
+      delete p[key];
+      if (action === 'view') {
+        mod.actions.forEach((a) => { delete p[mod.key + '.' + a]; });
+        if (mod.special) delete p[mod.key + '.' + mod.special[0]];
+      }
+    }
+    this.setState({ perms: Object.assign({}, this.state.perms, { [role]: p }) });
+  }
+  nav(active) {
+    const I = {
+      dashboard: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+      reports: 'M18 20V10M12 20V4M6 20v-6',
+      clients: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+      orders: 'M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0',
+      invoices: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8',
+      hosting: 'M2 4h20v6H2zM2 14h20v6H2zM6 7h.01M6 17h.01',
+      domains: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z',
+      products: 'M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01',
+      servers: 'M4 4h16v16H4zM9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3',
+      tickets: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+      activity: 'M22 12h-4l-3 9L9 3l-3 9H2',
+      staff: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+      roles: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      settings: 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'
+    };
+    const groups = [
+      { label: 'Overview', items: [['dashboard', 'Dashboard', 'Main.dc.html'], ['reports', 'Reports', '#']] },
+      { label: 'Business', items: [['clients', 'Clients', 'Clients.dc.html'], ['orders', 'Orders', '#', 6], ['invoices', 'Invoices', '#'], ['hosting', 'Hosting services', '#'], ['domains', 'Domains', '#'], ['products', 'Products & pricing', '#']] },
+      { label: 'Operations', items: [['servers', 'Servers', '#'], ['tickets', 'Support tickets', '#', 14], ['activity', 'Activity log', '#']] },
+      { label: 'Administration', items: [['staff', 'Staff', '#'], ['roles', 'Roles & permissions', 'Roles.dc.html'], ['settings', 'Settings', '#']] }
+    ];
+    return groups.map((g) => ({
+      label: g.label,
+      items: g.items.map(([k, l, h, b]) => ({
+        label: l, href: h, icon: I[k], badge: b ? String(b) : '', hasBadge: !!b,
+        current: k === active ? 'page' : 'false',
+        bg: k === active ? '#EEF3FF' : 'transparent',
+        color: k === active ? '#0B44F5' : '#344054'
+      }))
+    }));
+  }
+  renderVals() {
+    const roleDefs = [
+      ['super', 'Super Admin', 'Full control, including staff and roles.', '1 staff member'],
+      ['admin', 'Admin', 'Runs the business day to day, without staff or settings.', '2 staff members'],
+      ['billing', 'Billing Manager', 'Invoices, payments, refunds and orders.', '2 staff members'],
+      ['support', 'Support Staff', 'Answers tickets and helps with hosting and domains.', '5 staff members'],
+      ['sales', 'Sales', 'Creates clients and orders, sees products.', '1 staff member']
+    ];
+    const role = this.state.role;
+    const locked = role === 'super';
+    const p = this.state.perms[role];
+    const mods = this.modules();
+    let total = 0;
+    mods.forEach((m) => { total += m.actions.length + (m.special ? 1 : 0); });
+    const countOf = (r) => Object.keys(this.state.perms[r]).length;
+    const roles = roleDefs.map(([k, n, d, s]) => {
+      const on = k === role;
+      return {
+        name: n, desc: d, staff: s, count: countOf(k), locked: k === 'super', selected: on ? 'true' : 'false',
+        border: on ? '#0B44F5' : '#E4E7EC', bg: on ? '#F5F8FF' : '#FFFFFF',
+        pick: () => this.setState({ role: k })
+      };
+    });
+    const cols = ['view', 'create', 'edit', 'delete'];
+    const rows = mods.map((m) => ({
+      label: m.label, desc: m.desc,
+      cells: cols.map((a) => {
+        const key = m.key + '.' + a;
+        const has = m.actions.includes(a);
+        return { has, none: !has, on: !!p[key], locked, aria: m.label + ': ' + a, toggle: () => this.toggle(key, m, a) };
+      }),
+      special: m.special
+        ? { has: true, label: m.special[1], on: !!p[m.key + '.' + m.special[0]], locked, toggle: () => this.toggle(m.key + '.' + m.special[0], m, m.special[0]) }
+        : { has: false, label: '', on: false, locked: true, toggle: () => {} }
+    }));
+    const cur = roleDefs.find((r) => r[0] === role);
+    return {
+      nav: this.nav('roles'), roles, rows, locked,
+      roleName: cur[1], roleDesc: cur[2], staffLine: 'Used by ' + cur[3],
+      selectedCount: countOf(role), totalCount: total,
+      canDelete: !locked, saveOpacity: locked ? '0.45' : '1'
+    };
+  }
+}
+</script>
+</body>
+</html>

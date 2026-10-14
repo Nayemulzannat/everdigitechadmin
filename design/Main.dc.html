@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin Dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F7FE}
+a{color:#0B44F5}a:hover{color:#0836C4}
+button,input,select{font-family:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.navlink:hover{background:#F5F8FF !important;color:#0B44F5 !important}
+.trow:hover{background:#F9FAFB}
+@media (max-width: 960px){.side{display:none !important}.grid4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.split{grid-template-columns:minmax(0,1fr) !important}.pad{padding:20px !important}.searchbox{display:none !important}}
+@media (max-width: 560px){.grid4{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div style="display: flex; min-height: 100vh; font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; color: #0F172A; background: #F4F7FE">
+
+<aside class="side" style="width: 256px; flex-shrink: 0; background: #FFFFFF; border-right: 1px solid #E4E7EC; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box; padding: 20px 14px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 4px 8px 12px; border-bottom: 1px solid #EEF1F6">
+<div style="display: flex; align-items: center; gap: 8px">
+<svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="20" r="9" fill="none" stroke="#0B44F5" stroke-width="5"></circle><circle cx="25" cy="20" r="9" fill="none" stroke="#13B497" stroke-width="5"></circle></svg>
+<span style="font-size: 20px; letter-spacing: -0.01em; font-weight: 500; color: #0B44F5">Ever<span style="font-weight: 800; color: #0A2A9E">Digitech</span></span>
+</div>
+<span style="align-self: flex-start; font-size: 11px; font-weight: 700; color: #0B44F5; background: #EEF3FF; border-radius: 999px; padding: 4px 10px; letter-spacing: 0.12em; text-transform: uppercase">Admin console</span>
+</div>
+<nav aria-label="Admin" style="display: flex; flex-direction: column; gap: 18px; flex-grow: 1">
+<sc-for list="{{nav}}" as="group" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 11px; font-weight: 700; color: #64748B; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 12px 6px">{{group.label}}</div>
+<sc-for list="{{group.items}}" as="item" hint-placeholder-count="3">
+<a class="navlink" href="{{item.href}}" aria-current="{{item.current}}" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600; box-sizing: border-box; color: {{item.color}}; background: {{item.bg}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{item.icon}}"></path></svg>
+<span>{{item.label}}</span>
+<sc-if value="{{item.hasBadge}}" hint-placeholder-val="{{false}}">
+<span style="margin-left: auto; font-size: 12px; font-weight: 700; background: #0B44F5; color: #FFFFFF; border-radius: 999px; padding: 2px 8px">{{item.badge}}</span>
+</sc-if>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: #F5F8FF; border: 1px solid #E4E9F5">
+<div style="width: 36px; height: 36px; border-radius: 999px; background: #0B44F5; color: #FFFFFF; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center">NZ</div>
+<div style="display: flex; flex-direction: column; min-width: 0">
+<span style="font-size: 13px; font-weight: 700; color: #0F172A">Nayemul Zannat</span>
+<span style="font-size: 12px; color: #64748B">Super Admin</span>
+</div>
+</div>
+</aside>
+
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+<header style="height: 72px; display: flex; align-items: center; gap: 16px; padding: 0 32px; background: #FFFFFF; border-bottom: 1px solid #E4E7EC; position: sticky; top: 0; z-index: 5; box-sizing: border-box">
+<div class="searchbox" style="display: flex; align-items: center; gap: 10px; height: 44px; width: 100%; max-width: 440px; padding: 0 14px; border: 1px solid #E4E7EC; border-radius: 12px; background: #F9FAFB; box-sizing: border-box">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#475467" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35"></path></svg>
+<label for="admin-search" class="sr-only">Search</label>
+<input id="admin-search" type="search" placeholder="Search clients, domains, invoices…" style="flex-grow: 1; border: 0; background: transparent; font-size: 14px; color: #0F172A; outline: none; min-width: 0">
+<span style="font-size: 12px; font-weight: 700; color: #475467; border: 1px solid #E4E7EC; border-radius: 6px; padding: 2px 6px; background: #FFFFFF">Ctrl K</span>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" style="height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #0B44F5; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Quick create
+</button>
+<button type="button" aria-label="Notifications" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid #E4E7EC; background: #FFFFFF; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#344054" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+<span style="position: absolute; top: 10px; right: 11px; width: 8px; height: 8px; border-radius: 999px; background: #D92D20; border: 2px solid #FFFFFF"></span>
+</button>
+</header>
+
+<main class="pad" style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1360px; width: 100%; box-sizing: border-box">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #475467">Friday, 2 October 2026</span>
+<h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em">Good morning, Nayemul</h1>
+<p style="margin: 0; font-size: 15px; color: #475467">Here is what needs your attention across clients, billing and servers today.</p>
+</div>
+<div style="display: flex; gap: 4px; padding: 4px; background: #E6ECFA; border-radius: 12px">
+<button type="button" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; font-size: 13px; font-weight: 700; color: #475467; cursor: pointer">Today</button>
+<button type="button" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #0F172A; cursor: pointer; box-shadow: 0 1px 2px rgba(16,24,40,0.08)">Last 30 days</button>
+<button type="button" style="height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; font-size: 13px; font-weight: 700; color: #475467; cursor: pointer">This year</button>
+</div>
+</div>
+
+<div class="grid4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 13px; font-weight: 700; color: #475467">Revenue</span><span style="width: 32px; height: 32px; border-radius: 10px; background: #EEF4FF; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B44F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6"></path></svg></span></div>
+<div style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">৳4,82,350</div>
+<div style="font-size: 13px; color: #475467"><span style="color: #067647; font-weight: 700">+12.4%</span> vs previous 30 days</div>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 13px; font-weight: 700; color: #475467">New orders</span><span style="width: 32px; height: 32px; border-radius: 10px; background: #EEF4FF; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B44F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"></path></svg></span></div>
+<div style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">138</div>
+<div style="font-size: 13px; color: #475467"><span style="color: #B54708; font-weight: 700">6 pending</span> approval</div>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 13px; font-weight: 700; color: #475467">Unpaid invoices</span><span style="width: 32px; height: 32px; border-radius: 10px; background: #FFF6ED; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8"></path></svg></span></div>
+<div style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">৳1,24,900</div>
+<div style="font-size: 13px; color: #475467">21 invoices · <span style="color: #B42318; font-weight: 700">7 overdue</span></div>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-size: 13px; font-weight: 700; color: #475467">Open tickets</span><span style="width: 32px; height: 32px; border-radius: 10px; background: #EEF4FF; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B44F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span></div>
+<div style="font-size: 28px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">14</div>
+<div style="font-size: 13px; color: #475467"><span style="color: #B42318; font-weight: 700">3 urgent</span> · avg. reply 1h 20m</div>
+</div>
+</div>
+
+<div class="split" style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 800">Revenue, last 12 months</h2>
+<span style="font-size: 13px; color: #475467">Paid invoices only, in BDT</span>
+</div>
+<a href="#" style="font-size: 13px; font-weight: 700; text-decoration: none">Open report</a>
+</div>
+<div role="img" aria-label="Monthly revenue rising from 2.98 lakh in October 2025 to 4.82 lakh in September 2026" style="display: flex; gap: 12px">
+<div aria-hidden="true" style="display: flex; flex-direction: column; justify-content: space-between; height: 216px; margin-top: -8px; font-size: 12px; color: #475467; text-align: right; width: 32px; font-variant-numeric: tabular-nums">
+<span>৳5L</span><span>৳4L</span><span>৳3L</span><span>৳2L</span><span>৳1L</span><span>0</span>
+</div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px">
+<div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; background-image: repeating-linear-gradient(to top, #EEF1F5 0, #EEF1F5 1px, transparent 1px, transparent 40px); border-bottom: 1px solid #D0D5DD">
+<sc-for list="{{months}}" as="m" hint-placeholder-count="12">
+<div title="{{m.tip}}" style="flex-grow: 1; max-width: 40px; border-radius: 6px 6px 0 0; height: {{m.h}}px; background: {{m.color}}"></div>
+</sc-for>
+</div>
+<div aria-hidden="true" style="display: flex; justify-content: space-between; gap: 10px">
+<sc-for list="{{months}}" as="m" hint-placeholder-count="12">
+<span style="flex-grow: 1; max-width: 40px; text-align: center; font-size: 12px; color: #475467">{{m.label}}</span>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 800">Needs attention</h2>
+<div style="display: flex; flex-direction: column">
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2F4F7; text-decoration: none; color: #0F172A">
+<span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #FFFAEB; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex-grow: 1"><span style="font-size: 14px; font-weight: 700">6 orders waiting for approval</span><span style="font-size: 12px; color: #475467">Oldest placed 9 hours ago</span></span>
+<span style="font-size: 13px; font-weight: 700; color: #0B44F5">Review</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2F4F7; text-decoration: none; color: #0F172A">
+<span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #FEF3F2; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM12 11v3M12 17h.01"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex-grow: 1"><span style="font-size: 14px; font-weight: 700">7 invoices overdue</span><span style="font-size: 12px; color: #475467">৳38,400 total · 2 will auto-suspend tomorrow</span></span>
+<span style="font-size: 13px; font-weight: 700; color: #0B44F5">View</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2F4F7; text-decoration: none; color: #0F172A">
+<span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #EEF4FF; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0B44F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex-grow: 1"><span style="font-size: 14px; font-weight: 700">12 domains expire in 7 days</span><span style="font-size: 12px; color: #475467">4 have auto-renew turned off</span></span>
+<span style="font-size: 13px; font-weight: 700; color: #0B44F5">View</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F2F4F7; text-decoration: none; color: #0F172A">
+<span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #FEF3F2; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM15 9l-6 6M9 9l6 6"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex-grow: 1"><span style="font-size: 14px; font-weight: 700">2 provisioning jobs failed</span><span style="font-size: 12px; color: #475467">cPanel API timeout on SG-01</span></span>
+<span style="font-size: 13px; font-weight: 700; color: #0B44F5">Retry</span>
+</a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; text-decoration: none; color: #0F172A">
+<span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: #FFFAEB; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h20v6H2zM2 14h20v6H2zM6 7h.01M6 17h.01"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex-grow: 1"><span style="font-size: 14px; font-weight: 700">SG-01 disk at 91%</span><span style="font-size: 12px; color: #475467">Stop new accounts on this server</span></span>
+<span style="font-size: 13px; font-weight: 700; color: #0B44F5">Open</span>
+</a>
+</div>
+</section>
+</div>
+
+<div class="split" style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #E4E7EC">
+<h2 style="margin: 0; font-size: 17px; font-weight: 800">Recent orders</h2>
+<a href="#" style="font-size: 13px; font-weight: 700; text-decoration: none">All orders</a>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 680px">
+<thead>
+<tr style="background: #F9FAFB; text-align: left">
+<th style="padding: 12px 24px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Order</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Client</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Product</th>
+<th style="padding: 12px 16px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em; text-align: right">Amount</th>
+<th style="padding: 12px 24px; font-size: 12px; font-weight: 700; color: #475467; text-transform: uppercase; letter-spacing: 0.06em">Status</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{orders}}" as="o" hint-placeholder-count="5">
+<tr class="trow" style="border-top: 1px solid #F2F4F7">
+<td style="padding: 14px 24px; font-weight: 700; color: #0B44F5; white-space: nowrap">{{o.id}}</td>
+<td style="padding: 14px 16px"><div style="font-weight: 700">{{o.client}}</div><div style="font-size: 12px; color: #475467">{{o.time}}</div></td>
+<td style="padding: 14px 16px"><div style="font-weight: 600">{{o.product}}</div><div style="font-size: 12px; color: #475467">via {{o.method}}</div></td>
+<td style="padding: 14px 16px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap">{{o.amount}}</td>
+<td style="padding: 14px 24px; white-space: nowrap"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: {{o.fg}}; background: {{o.bg}}"><span style="width: 6px; height: 6px; border-radius: 999px; background: {{o.fg}}"></span>{{o.status}}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E7EC; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<h2 style="margin: 0; font-size: 17px; font-weight: 800">Servers</h2>
+<a href="#" style="font-size: 13px; font-weight: 700; text-decoration: none">Manage</a>
+</div>
+<sc-for list="{{servers}}" as="s" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid #F2F4F7">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<div style="display: flex; flex-direction: column">
+<span style="font-size: 14px; font-weight: 800">{{s.name}}</span>
+<span style="font-size: 12px; color: #475467">{{s.meta}}</span>
+</div>
+<span style="font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: {{s.fg}}; background: {{s.bg}}">{{s.status}}</span>
+</div>
+<div style="display: grid; grid-template-columns: 44px minmax(0, 1fr) 40px; gap: 6px 10px; align-items: center; font-size: 12px; color: #475467">
+<span>CPU</span><div style="height: 6px; border-radius: 999px; background: #EEF1F5"><div style="height: 6px; border-radius: 999px; width: {{s.cpu}}%; background: {{s.cpuColor}}"></div></div><span style="text-align: right; font-weight: 700; color: #0F172A">{{s.cpu}}%</span>
+<span>Disk</span><div style="height: 6px; border-radius: 999px; background: #EEF1F5"><div style="height: 6px; border-radius: 999px; width: {{s.disk}}%; background: {{s.diskColor}}"></div></div><span style="text-align: right; font-weight: 700; color: #0F172A">{{s.disk}}%</span>
+</div>
+</div>
+</sc-for>
+</section>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1340}}'>
+class Component extends DCLogic {
+  nav(active) {
+    const I = {
+      dashboard: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
+      reports: 'M18 20V10M12 20V4M6 20v-6',
+      clients: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+      orders: 'M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0',
+      invoices: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8',
+      hosting: 'M2 4h20v6H2zM2 14h20v6H2zM6 7h.01M6 17h.01',
+      domains: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z',
+      products: 'M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01',
+      servers: 'M4 4h16v16H4zM9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3',
+      tickets: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+      activity: 'M22 12h-4l-3 9L9 3l-3 9H2',
+      staff: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+      roles: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      settings: 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'
+    };
+    const groups = [
+      { label: 'Overview', items: [['dashboard', 'Dashboard', 'Main.dc.html'], ['reports', 'Reports', '#']] },
+      { label: 'Business', items: [['clients', 'Clients', 'Clients.dc.html'], ['orders', 'Orders', '#', 6], ['invoices', 'Invoices', '#'], ['hosting', 'Hosting services', '#'], ['domains', 'Domains', '#'], ['products', 'Products & pricing', '#']] },
+      { label: 'Operations', items: [['servers', 'Servers', '#'], ['tickets', 'Support tickets', '#', 14], ['activity', 'Activity log', '#']] },
+      { label: 'Administration', items: [['staff', 'Staff', '#'], ['roles', 'Roles & permissions', 'Roles.dc.html'], ['settings', 'Settings', '#']] }
+    ];
+    return groups.map((g) => ({
+      label: g.label,
+      items: g.items.map(([k, l, h, b]) => ({
+        label: l, href: h, icon: I[k], badge: b ? String(b) : '', hasBadge: !!b,
+        current: k === active ? 'page' : 'false',
+        bg: k === active ? '#EEF3FF' : 'transparent',
+        color: k === active ? '#0B44F5' : '#344054'
+      }))
+    }));
+  }
+  renderVals() {
+    const labels = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+    const vals = [298, 312, 305, 341, 326, 359, 372, 365, 398, 412, 405, 482];
+    const months = labels.map((l, i) => ({
+      label: l,
+      h: Math.round(vals[i] / 500 * 200),
+      tip: l + ': ৳' + vals[i] + 'k',
+      color: i === vals.length - 1 ? '#0B44F5' : '#C7D7FD'
+    }));
+    const tone = {
+      green: ['#067647', '#ECFDF3'], amber: ['#B54708', '#FFFAEB'], red: ['#B42318', '#FEF3F2'], gray: ['#344054', '#F2F4F7']
+    };
+    const ord = [
+      ['#ORD-10482', 'Rahim Uddin', '12 min ago', 'Business Hosting · Yearly', 'bKash', '৳6,500', 'Active', 'green'],
+      ['#ORD-10481', 'Nusrat Jahan', '48 min ago', 'Domain · nusratbakes.com', 'SSLCommerz', '৳1,450', 'Pending', 'amber'],
+      ['#ORD-10480', 'TechNest Ltd', '2 h ago', 'VPS Pro · Monthly', 'Bank transfer', '৳4,200', 'Verify payment', 'amber'],
+      ['#ORD-10479', 'Sabbir Hossain', '3 h ago', 'Starter Hosting · Yearly', 'Nagad', '৳1,200', 'Active', 'green'],
+      ['#ORD-10478', 'Farhana Akter', '5 h ago', 'Domain · akterfashion.com.bd', 'Not paid', '৳1,800', 'Unpaid', 'gray']
+    ];
+    const orders = ord.map((o) => ({ id: o[0], client: o[1], time: o[2], product: o[3], method: o[4], amount: o[5], status: o[6], fg: tone[o[7]][0], bg: tone[o[7]][1] }));
+    const barColor = (v) => v >= 85 ? '#B42318' : v >= 70 ? '#DC6803' : '#0B44F5';
+    const sv = [
+      ['BD-01', 'Dhaka · cPanel · 342 / 500 accounts', 48, 63, 'Online', 'green'],
+      ['US-01', 'Dallas · cPanel · 210 / 400 accounts', 31, 52, 'Online', 'green'],
+      ['SG-01', 'Singapore · DirectAdmin · 188 / 250 accounts', 72, 91, 'Disk high', 'red']
+    ];
+    const servers = sv.map((s) => ({ name: s[0], meta: s[1], cpu: s[2], disk: s[3], status: s[4], fg: tone[s[5]][0], bg: tone[s[5]][1], cpuColor: barColor(s[2]), diskColor: barColor(s[3]) }));
+    return { nav: this.nav('dashboard'), months, orders, servers };
+  }
+}
+</script>
+</body>
+</html>
